@@ -24,7 +24,8 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
+        //set delegate methods
         currencyPicker.delegate = self
         currencyPicker.dataSource = self
        
@@ -34,20 +35,28 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     //TODO: Place your 3 UIPickerView delegate methods here
     
 
-    
+    //add no. of components for picker
     func numberOfComponents(in pickerView: UIPickerView) -> Int
     {
      return 1
     }
 
+    //define number of rows for picker
     func pickerView (_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
     {
         return currencyArray.count
     }
     
+    //define row title names
     func pickerView (_ pickerView: UIPickerView, titleForRow row: Int, forComponent: Int) -> String?
     {
         return currencyArray[row]
+    }
+    
+    //tell picker what to do when selected
+    func pickerView (_ pickerView: UIPickerView, didSelectRow row: Int, inComponent: Int)
+    {
+     print(currencyArray[row])
     }
     
     
