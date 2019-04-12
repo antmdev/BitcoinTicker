@@ -56,7 +56,8 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     //tell picker what to do when selected
     func pickerView (_ pickerView: UIPickerView, didSelectRow row: Int, inComponent: Int)
     {
-     print(currencyArray[row])
+    finalURL = baseURL + currencyArray[row]
+    print(finalURL)
     }
     
     
