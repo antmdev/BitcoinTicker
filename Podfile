@@ -8,8 +8,9 @@ use_frameworks!
 
   # Pods for BitcoinTicker
 
- pod 'SwiftyJSON'
+  #pod 'SwiftyJSON'
  pod 'Alamofire'
+ pod 'SwiftyJSON', '4.2'
  #pod 'SVProgressHUD'
  #pod 'ObjectiveSugar'
 
