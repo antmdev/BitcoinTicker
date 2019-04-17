@@ -14,8 +14,9 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     let baseURL = "https://apiv2.bitcoinaverage.com/indices/global/ticker/BTC"
     let currencyArray = ["AUD", "BRL","CAD","CNY","EUR","GBP","HKD","IDR","ILS","INR","JPY","MXN","NOK","NZD","PLN","RON","RUB","SEK","SGD","USD","ZAR"]
+    let currencySymbolArray = ["$", "R$", "$", "¥", "€", "£", "$", "Rp", "₪", "₹", "¥", "$", "kr", "$", "zł", "lei", "₽", "kr", "$", "$", "R"]
     var finalURL = ""
-
+    var currencySelected = ""
     
     
     //Pre-setup IBOutlets
@@ -47,12 +48,14 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     func pickerView (_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int
     {
         return currencyArray.count
+       
     }
     
     //define row title names
     func pickerView (_ pickerView: UIPickerView, titleForRow row: Int, forComponent: Int) -> String?
     {
         return currencyArray[row]
+        
     }
     
     //tell picker what to do when selected
@@ -60,6 +63,8 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     {
     finalURL = baseURL + currencyArray[row]
     print(finalURL)
+    currencySelected = currencySymbolArray[row]
+    getCurrencyData(url: finalURL)
     }
     
     
@@ -72,15 +77,18 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
         
         Alamofire.request(url, method: .get )
             .responseJSON { response in
-                if response.result.isSuccess {
-
+                if response.result.isSuccess
+                {
                     print("Sucess! Got the Currency Data")
                     let currencyJSON : JSON = JSON(response.result.value!)
 
                     self.updateCurrencyData(json: currencyJSON)
 
-                } else {
+                }
+                else
+                {
                     print("Error: \(String(describing: response.result.error))")
+                    
                     self.bitcoinPriceLabel.text = "Connection Issues"
                 }
             }
@@ -94,22 +102,21 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
 //    //MARK: - JSON Parsing
 //    /***************************************************************/
 //    
-    func updateCurrencyData(json : JSON) {
+    func updateCurrencyData(json : JSON)
+    {
         
-//        if let tempResult = json["main"]["temp"].double {
-//
-//        weatherData.temperature = Int(round(tempResult!) - 273.15)
-//        weatherData.city = json["name"].stringValue
-//        weatherData.condition = json["weather"][0]["id"].intValue
-//        weatherData.weatherIconName =    weatherData.updateWeatherIcon(condition: weatherData.condition)
-//        }
-//
-//        updateUIWithWeatherData()
+        if let currencyResult = json["ask"].double
+    {
+        
+        bitcoinPriceLabel.text = "\(currencySelected) \(String(currencyResult))"
     }
-//
-
-
-
+        else
+        {
+            bitcoinPriceLabel.text = "Price Unavailable"
+        }
+    }
 
 }
+
+
 
